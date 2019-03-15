@@ -24,3 +24,14 @@ a = input()
 b = input()
 res = makeAnagram(a, b)
 print(res)
+
+
+#Simpler way from internet with Counter we can make sets operations
+#So the elements are the intersection complement of the elements
+#from collections import Counter   
+#a = Counter(raw_input())
+#b = Counter(raw_input())
+#c = a - b
+#d = b - a
+#e = c + d
+#print len(list(e.elements()))
