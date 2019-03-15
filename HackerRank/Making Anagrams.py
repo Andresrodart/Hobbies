@@ -1,13 +1,12 @@
 def makeAnagram(a, b):
-    listA = [item for item in a]
+    listA = [item for item in a]	#because string are unmutable we want to use a list
     listB = [item for item in b]
-    listA.sort()
+    listA.sort()					#sort to make comparasion simplier
     listB.sort()
     lenA = len(a)
     lenB = len(b)
-    minLen = min(lenA,lenB)
     j = i = res = 0
-    while i < minLen and j < minLen:
+    while i < lenA and j < lenB:	#So we iterate till we reach the end of any list, worst case O(A-1+B)
         if listA[i] == listB[j]:
             i += 1
             j += 1
@@ -17,8 +16,8 @@ def makeAnagram(a, b):
                 i += 1
             elif listA[i] > listB[j]:
                 j += 1
-            res += 1
-    res += lenA -  if (i < j) else lenB - j
+            res += 1				#So if A isnt B we need to push out the char
+    res += lenA + lenB - j - i 		#Last we add the chars that we dont iterate 
     return res
 
 a = input()
