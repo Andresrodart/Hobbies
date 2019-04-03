@@ -1,42 +1,9 @@
 def eulerSum(num):
 	return num*(num + 1)/2
-
-def substrCount_1(n, s):
-	mem = {}
-	res = substrPal(n, list(s), mem, 0)
-	print(res)
-	for i, j in zip(mem, mem.values()):
-		if j == True:
-			print(i, j)
-
-		if inChar == cad[i]:
-			if not aBreak:
-				inRowL += 1
-			else:
-				if inRowR < inRowL:
-					res += 1
-				inRowR += 1
-			i += 1	
-		
-		else:
-			aBreak = True
-			res += eulerSum(inRowR) + eulerSum(inRowL)
-			if i + 1 < n and inChar == cad[i + 1]:
-				if i + 2 < n and cad[i] == cad[i + 2]:
-					res += 1
-				res += 2
-				inRowR = 1
-				i += 2 if i + 2 <= n else 1
-			else:
-				inChar = cad[i]
-				inRowL, inRowR = 1, 0
-				i += 1
-				aBreak = False
-			
-	return res
-def eulerSum(num):
-	return num*(num + 1)/2
-
+#This code what makes is first chechs all substring that equal then  get the total number of substrimngf from that that is len(len + 1)2
+#Then we check for that substrings for the ones with middle char and take the one with lesc cahracters
+#For simler code waht we can make is make another auclist with has the lenght of the first while, then chckin thart lsit from pos 1 with index as i if it is 1 and i - 1 and 1 + 1 are from the same char 
+#eg { a-0:2, x-1:1, a-2:3} then we can sum the min(2, 3)
 def substrCount(n, cad):
 	inChar = cad[0]
 	inRowL, inRowR = 1, 0
@@ -45,7 +12,7 @@ def substrCount(n, cad):
 	
 	while i <= n:
 		if i == n:
-			res += eulerSum(inRowL)
+			res += eulerSum(inRowL) + eulerSum(inRowR)
 			i += 1
 			continue
 		if inChar == cad[i]:
@@ -57,45 +24,49 @@ def substrCount(n, cad):
 		i += 1
 	
 	inChar = cad[0]
-	i, inRowL  = 1, 1
-	while i <= n:
-		if i == n:        
+	i, inRowL = 1, 1
+	for i in range(1, n + 1):
+		if i == n:
+			if aBreak:
+				res += min(inRowL, inRowR)	
 			i += 1
-			continue    
+			continue	
 			
 		if inChar == cad[i]:
-			if not aBreak:        
+			if not aBreak:		
 				inRowL += 1
 			else:
-				if inRowR < inRowL:
-					res += 1
 				inRowR += 1
-			i += 1                    
 						
-		else:    
-			aBreak = True        
-			if i + 1 < n and inChar == cad[i + 1]:
-				res += 1
-				inRowR += 1
-				if i + 2 < n and cad[i] == cad[i + 2]:
-					res += 1
-					i += 3
-					inChar = cad[i + 3] if i + 3 < n else cad[i]
+		else:	
+			if not aBreak:
+				aBreak = True
+				if i + 1 < n and inChar == cad[i + 1]:
+					if i + 2 < n and cad[i] == cad[i + 2]:
+						res += 1
+				else:
+					inChar = cad[i]
 					inRowL, inRowR= 1, 0
 					aBreak = False
-					continue
-				i += 2
 			else:
-				inChar = cad[i]
-				inRowL, inRowR= 1, 0
-				i += 1
-				aBreak = False
-			
+				res += min(inRowL, inRowR)
+				if i + 1 < n and inChar == cad[i + 1]:
+					if i + 2 < n and cad[i] == cad[i + 2]:
+						res += 1
+					inRowL, inRowR = inRowR, 0
+				else:
+					inChar = cad[i]
+					inRowL, inRowR = 1, 0
+					aBreak = False
+		#print(res, inRowL, inRowR, cad[i], inChar)
 	return int(res)
 
-print(anagrama(6,'ccaccc'))
-print(anagrama(5,'asasd'))
-print(anagrama(7,'abcbaba'))
+
+print(substrCount(5,'asasd'))
+print(substrCount(7,'abcbaba'))
+print(substrCount(4,'aaaa'))
+print(substrCount(6,'ccacac'))
+
 
 # Complete the substrCount function below.
 #import math
