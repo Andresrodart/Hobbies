@@ -1,0 +1,10 @@
+{
+	"variables":["x","y"],
+	"rangos":{"x":[0,4000],"y":[0,6000]},
+	"FO":"0.10*x + 0.50*y",
+	"condiciones":["0.1*x + 0.6*y <= 2000", "x + y <= 6000", " x <= 4000"],
+	"bitPrecision":0,
+	"poblaciones":3,
+	"individuos":5,
+	"bitPOresicion":0
+}
