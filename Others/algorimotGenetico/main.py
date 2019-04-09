@@ -19,6 +19,11 @@ class MainWindow(QMainWindow):										#Ventana principal que hereda de QMainWi
 		Res = ResultadoArchivo(self) 
 		self.setCentralWidget(Res) 
 	
+	def on_button_rtit(self):
+		self.miMetodo.algoritmo()
+		Res = ResultadoArchivo(self) 
+		self.setCentralWidget(Res) 
+
 	def on_button_salir(self):
 		windw = Window(self)
 		windw.setMinimumSize(1,1)
@@ -43,7 +48,7 @@ class ResultadoArchivo(QWidget):
 		self.__clean__()
 		layoutRes = QWidget() 
 		layoutRes.layout = QVBoxLayout(self)
-		self.parent().resize(520 + 150,500)
+		self.parent().resize(550 + 150,500)
 		
 		UpPanel = QWidget() 
 		UpPanel.layout = QHBoxLayout(self) 
@@ -70,7 +75,7 @@ class ResultadoArchivo(QWidget):
 		tableWidget = QTableWidget()
 		tableWidget.setColumnCount(len(self.parent().miMetodo.iterations[0][0]))
 		tableWidget.setSizeAdjustPolicy(QAbstractScrollArea.AdjustToContents)
-		
+
 		for i, each in zip( range(len(self.parent().miMetodo.iterations)), self.parent().miMetodo.iterations):
 			for one in each:
 				rowPosition = tableWidget.rowCount()
@@ -86,9 +91,12 @@ class ResultadoArchivo(QWidget):
 		
 		rtrn = QPushButton("Regresar")
 		rtrn.clicked.connect(self.parent().on_button_salir)
+		rtit = QPushButton("Reiterar")
+		rtit.clicked.connect(self.parent().on_button_rtit)
 		
 		layoutRes.layout.addWidget(UpPanel)
 		layoutRes.layout.addWidget(tableWidget)
+		layoutRes.layout.addWidget(rtit)
 		layoutRes.layout.addWidget(rtrn)
 		
 

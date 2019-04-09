@@ -49,17 +49,6 @@ class AlgoGen:
 	
 	def algoritmo(self, indi=None, pobls=None, bitPres=None):				#Podemos recalcular el mejor valor con nuevos individuos, o mas poblaciones o con otro bit de presicion
 		self.rules["poblaciones"] = pobls if pobls else self.rules["poblaciones"]
-		numOfCol = len(self.rules["variables"]) + 6
-		iteration = [[None]*numOfCol for each in range(self.rules["individuos"] + 1)]
-		iteration[0][0] = 'Vector'
-		iteration[0][numOfCol - 5] = 'Z'
-		iteration[0][numOfCol - 4] = '%Z'
-		iteration[0][numOfCol - 3] = '%Z acm'
-		iteration[0][numOfCol - 2] = 'Num Ale'
-		iteration[0][numOfCol - 1] = 'V Fuerte'
-		for i, value in zip(range(numOfCol - 6),self.rules["variables"]):
-			iteration[0][i + 1] = value
-		
 		if bitPres:
 			self.rules["bitPOresicion"] = bitPres
 			self.__vecBit()
@@ -70,13 +59,24 @@ class AlgoGen:
 		for i in range(self.rules["poblaciones"]):
 			indiFrts = {}											#Aquí guardaremos los id de los invividuos que salgan despues de elegir el numero aleaotrio
 			resultFO = 0											#La última posición guarda la suma de todas las evaluaciones en F.O.
+			numOfCol = len(self.rules["variables"]) + 6
+			iteration = [[None]*numOfCol for each in range(self.rules["individuos"] + 1)]
+			iteration[0][0] = 'Vector'
+			iteration[0][numOfCol - 5] = 'Z'
+			iteration[0][numOfCol - 4] = '%Z'
+			iteration[0][numOfCol - 3] = '%Z acm'
+			iteration[0][numOfCol - 2] = 'Num Ale'
+			iteration[0][numOfCol - 1] = 'V Fuerte'
+			for i, value in zip(range(numOfCol - 6),self.rules["variables"]):
+				iteration[0][i + 1] = value
+		
 			for j in range(len(self.individuos)):
 				varHelp = self.individuos[j][1]						#Auxiliar para evaluar en la F.O.
 				iteration[j + 1][numOfCol - 5] = eval(self.rules['FO'], None, varHelp)	#Evaluamos al individuo en F.O.
 				resultFO += iteration[j + 1][numOfCol - 5]			#Z acumulado
 				iteration[j + 1][0] = ''.join(self.individuos[j][0])
 				for k, val in zip(range(len(self.rules["variables"])), self.rules["variables"]):
-					iteration[j + 1][k + 1] = "{0:.2f}".format(self.individuos[j][1][val])
+					iteration[j + 1][k + 1] = self.individuos[j][1][val]
 			iteration[1][numOfCol - 4] = iteration[1][numOfCol - 5]/resultFO			#Z% = resZ_j / Zacumulado
 			iteration[1][numOfCol - 3] = iteration[1][numOfCol - 4]						#Z% acumulado	
 			for j in range(1, len(self.individuos)):
@@ -133,5 +133,5 @@ class AlgoGen:
 			self.individuos = individuosAux
 			for i, each in zip(range(self.rules["individuos"]), self.individuos):
 				iteration[i + 1][numOfCol - 1] = ''.join(self.individuos[i][0])
-			self.resultado =  self.individuos[auxStronger[0]]
-			self.iterations.append(iteration)
+			self.resultado = self.individuos[auxStronger[0]]
+			self.iterations.append(iteration[:])
