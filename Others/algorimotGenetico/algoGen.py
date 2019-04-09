@@ -2,7 +2,6 @@ import os
 import json
 import random
 import math
-from PyQt5.QtWidgets import *
 
 class AlgoGen:
 	def __init__(self, rules):
@@ -135,67 +134,4 @@ class AlgoGen:
 			for i, each in zip(range(self.rules["individuos"]), self.individuos):
 				iteration[i + 1][numOfCol - 1] = ''.join(self.individuos[i][0])
 			self.resultado =  self.individuos[auxStronger[0]]
-			for each in iteration:
-				print(each)
-			print('')
-
-class MainWindow(QMainWindow):										#Ventana principal que hereda de QMainWindow
-	def __init__(self, parent=None):
-		super(MainWindow, self).__init__(parent)
-		self.setWindowTitle("Algoritmo Genético")
-		windw = Window(self)
-		windw.setMinimumSize(1,1)
-		self.setCentralWidget(windw)
-		self.miMetodo = None
-	
-	def on_button_archivo(self):
-		fnme =  QFileDialog.getOpenFileName(self, 'Selecciona el archivo de reglas', 'c:\\',"Json Files (*.json)")	
-		rules = {}
-		with open(fnme[0], 'r') as inputFile:
-			rules = json.load(inputFile)
-		self.miMetodo = AlgoGen(rules)
-		Res = ResultadoArchivo(self) 
-		self.setCentralWidget(Res) 
-	
-class Window(QWidget):
-	def __init__(self, parent):        
-		super(Window, self).__init__(parent)
-		self.parent().resize(250,100)
-		self.layout = QVBoxLayout(self)
-		self.button_archivo = QPushButton('Cargar Archivo')
-		self.button_carga = QPushButton('Ingresar datos')
-		self.layout.addWidget(self.button_archivo)
-		self.layout.addWidget(self.button_carga)
-		self.button_archivo.clicked.connect(self.parent().on_button_archivo)
-		#self.button_carga.clicked.connect(self.parent().on_button_clicked_maestro)
-		self.setLayout(self.layout)
-
-class ResultadoArchivo(QWidget):
-	def __init__(self, parent):        
-		super(ResultadoArchivo, self).__init__(parent)
-		self.layout = QVBoxLayout(self)
-		self.clean()
-		self.parent().resize(250,100)
-		self.ResWid = QWidget()
-		self.ResWid.layout = QVBoxLayout(self)
-		LabelRes = QLabel('Resultado:', self)
-		self.ResWid.layout.addWidget(LabelRes)
-		self.ResWid.layout.addWidget(QLabel(''.join(self.parent().miMetodo.resultado[0]), self))
-		for item in self.parent().miMetodo.resultado[1]:
-			self.ResWid.layout.addWidget(QLabel(item + ' = ' + str(self.parent().miMetodo.resultado[1][item]), self))
-		
-		self.ResWid.setLayout(self.ResWid.layout)
-		self.layout.addWidget(self.ResWid)
-		self.setLayout(self.layout)
-	def clean(self):
-		try:
-			for i in reversed(range(self.layout.count())): 
-				self.layout.itemAt(i).widget().setParent(None)
-		except:
-			pass
-
-if __name__ == '__main__':
-	app = QApplication([])
-	window = MainWindow()
-	window.show()
-	app.exec_()
+			self.iterations.append(iteration)
