@@ -2,5 +2,6 @@
     "abc": "Pertenece",
     "abcabcabc": "Pertenece",
     "abcd": "Existe un caracter que no pertenece al alfabeto",
-    "cab": "No pertenece"
+    "cab": "No pertenece",
+    "aaabbbbccccc": "Pertenece"
 }
