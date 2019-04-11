@@ -5,5 +5,5 @@
 	"condiciones":["x + w <= 50", "2*x + y >= 75", "x - w >= 10", "w >= -5"],
 	"bitPrecision":2,
 	"poblaciones":5,
-	"individuos":3
+	"individuos":30
 }

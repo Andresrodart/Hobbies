@@ -63,9 +63,8 @@ class ResultadoArchivo(QWidget):
 		ResWid.layout = QVBoxLayout(self)
 		LabelRes = QLabel('Resultado:', self)
 		ResWid.layout.addWidget(LabelRes)
-		ResWid.layout.addWidget(QLabel(''.join(self.parent().miMetodo.resultado[0]), self))
-		for item in self.parent().miMetodo.resultado[1]:
-			ResWid.layout.addWidget(QLabel(item + ' = ' + str(self.parent().miMetodo.resultado[1][item]), self))
+		for item in self.parent().miMetodo.resultado:
+			ResWid.layout.addWidget(QLabel(item + ' = ' + str(self.parent().miMetodo.resultado[item]), self))
 		ResWid.setLayout(ResWid.layout)
 		
 		UpPanel.layout.addWidget(ResWid)
