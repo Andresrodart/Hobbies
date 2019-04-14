@@ -1,7 +1,7 @@
 {
 	"variables":["x","y"],
 	"rangos":{"x":[0, 10],"y":[0, 20]},
-	"FO":"-x - y",
+	"FO":"x + y",
 	"condiciones":["2*x + y <= 20", "x + y >= 10"],
 	"bitPrecision":0,
 	"poblaciones":20,

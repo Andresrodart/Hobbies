@@ -1,9 +1,9 @@
 {
 	"variables":["x","y","r","w"],
-	"rangos":{"x":[0,30],"y":[0,30], "r":[0,100], "w":[0,40]},
-	"FO":"x - y + r + w",
-	"condiciones":["x + y <= 30", "x + w <= 40", "x + y + r + w <= 100", "x + y + r + w >= 98"],
-	"bitPrecision":0,
-	"poblaciones":2,
-	"individuos":50
+	"rangos":{"x":[0,100],"y":[0,100], "r":[0,100], "w":[0,100]},
+	"FO":"-x + y - r - w",
+	"condiciones":["x + y <= 30", "x + w <= 40", "x + y + r + w >= 100"],
+	"bitPrecision":2,
+	"poblaciones":3,
+	"individuos":5000
 }
