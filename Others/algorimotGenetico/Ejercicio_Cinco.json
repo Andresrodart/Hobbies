@@ -1,0 +1,9 @@
+{
+	"variables":["x","y"],
+	"rangos":{"x":[0, 3],"y":[0, 7]},
+	"FO":"x + y",
+	"condiciones":["2*x + y <= 10", "x >= 1"],
+	"bitPrecision":0,
+	"poblaciones":5,
+	"individuos":5
+}
