@@ -1,4 +1,5 @@
 maxList = 10**6 + 10
+fenwick = [0] * maxList
 
 def update(l, delta):
   while l < maxList:
@@ -16,10 +17,11 @@ if __name__ == '__main__':
   T = int(input())
   for _ in range(T):
     res = 0
-    fenwick = [0] * maxList
     leng = int(input()) - 1
     stairs = list(map(int, input().split()))
     for num in stairs:
       res += add(num - 1)
       update(num, num)
     print(res)
+    for num in stairs:
+      update(num, -num)
