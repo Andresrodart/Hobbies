@@ -7,9 +7,9 @@ def update(l, delta):
     l = l | (l + 1)
 
 def add(r):
-  res = 0;
+  res = 0
   while r >= 0:
-    res += fenwick[r];
+    res += fenwick[r]
     r = (r & (r + 1)) - 1
   return res
 
