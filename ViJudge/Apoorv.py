@@ -16,32 +16,33 @@ class fenwick:
 def cordRed(arr, n):
 	mapper = {}
 	aux = sorted(arr)
+	j = 0
 	for i in range(n):
 		if aux[i] not in mapper:
-			mapper[aux[i]] = i
+			mapper[aux[i]] = j
+			j += 1
 	for i in range(n):
 		arr[i] = mapper[arr[i]]
-	return arr
+	return arr, j
 
 if __name__ == "__main__":
 	n, p = map(int, input().split())
-	arr = cordRed(list(map(int, input().split())), n)
-	fenwickNum = fenwick(p)
-	fenwickPos = fenwick(n)
-	resI = 0
+	arr, rang = cordRed(list(map(int, input().split())), n)
+	fnwick = fenwick(rang + 1)
+	resI = n - p
 	resMax = 0
-	j = 0
-	k = 0
-	for i in range(n - 1, n - p - 1, -1):
-		fenwickNum.update(arr[i], 1)
-		resMax += fenwickNum.add(arr[i] - 1)
-		fenwickPos.update(i, resMax)
-	for i in range(n - p - 1, -1, -1):
-		fnwick.update(arr[n - 1 - j], - 1)
-		auxRes = 0
-		for ii in range(p):
-			auxRes += fnwick.add(arr[i + ii] - 1)
-		
+	if p > 1:
+		for i in range(n - 1, n - p - 1, -1):
+			fnwick.update(arr[i], 1)
+			resMax += fnwick.add(arr[i] - 1)
+		winRes = resMax
+		for i in range(n - p - 1, -1, -1):
+			fnwick.update(arr[i + p], - 1)
+			winRes += fnwick.add(arr[i] - 1) - fnwick.add(rang - 1) + fnwick.add(arr[i + p])
+			fnwick.update(arr[i], 1)
+			if winRes > resMax:
+				resMax = winRes
+				resI = i
 	print(resI + 1, resMax)
 
 # if __name__ == "__main__":
