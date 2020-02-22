@@ -1,3 +1,5 @@
+import pandas as pd
+
 class fenwick:
 	def __init__(self, n):
 		self.maxList = n
@@ -13,21 +15,27 @@ class fenwick:
 			r = (r & (r + 1)) - 1
 		return res
 
-def cordRed(arr, n):
-	mapper = {}
+def indexOfSort(arr, l, r, elem):
+	i = int((r + l) / 2)
+	if l == r:
+		return r if arr[r] == elem else -1
+	if arr[i] == elem:
+		return i
+	elif arr[i] > elem:
+		return indexOfSort(arr, l, i - 1, elem)
+	elif arr[i] < elem:
+		return indexOfSort(arr, i + 1, r, elem)
+
+def coordinateCompression(arr, n):
 	aux = sorted(arr)
-	j = 0
+	aux = pd.unique(aux)
 	for i in range(n):
-		if aux[i] not in mapper:
-			mapper[aux[i]] = j
-			j += 1
-	for i in range(n):
-		arr[i] = mapper[arr[i]]
-	return arr, j
+		arr[i] = indexOfSort(aux, 0, n - 1, arr[i]) + 1
+	return arr, len(aux)
 
 if __name__ == "__main__":
 	n, p = map(int, input().split())
-	arr, rang = cordRed(list(map(int, input().split())), n)
+	arr, rang = coordinateCompression(list(map(int, input().split())), n)
 	fnwick = fenwick(rang + 1)
 	resI = n - p
 	resMax = 0
