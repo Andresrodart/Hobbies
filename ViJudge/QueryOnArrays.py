@@ -28,39 +28,73 @@ class fenwick:
 			r = (r & (r + 1)) - 1
 		return res
 
+def binSearch(val, BIT):
+	l = 0
+	r = BIT.maxList - 1
+	mid = int((l + r) / 2)
+	while l < BIT.maxList and r >= 0 and l <= r:
+		aux = BIT.addition(mid)
+		if aux == val:
+			return True
+		elif aux < val:
+			l = mid + 1
+			mid = int((l + r) / 2)
+		else:
+			r = mid - 1
+			mid = int((l + r) / 2)
+	return False
+	
 if __name__ == "__main__":
 	n = int(input())
 	arr = list(map(int, input().split()))
 	q = int(input())
 	fnwick = fenwick(n, arr=arr)
-	for i in range(n):
-		print(fnwick.addition(i), end=" ")
-	print("")
 	while q > 0:
 		query = list(map(int, input().split()))
 		if(query[0] == 2):
-			i, j = 0, -1
 			res = "NO"
-			while i < fnwick.maxList and j < fnwick.maxList:
-				suffix = fnwick.addition(i) - fnwick.addition(j)
-				if(suffix == query[1]):
-					res = "YES"
-					break
-				if suffix < query[1]:
-					x = int((n - i)/2) + 1
-					if x + i < n:
-						auxSuffix = fnwick.addition(i + x) - fnwick.addition(j)
-						i += (x + 1) if auxSuffix < query[1] else 1
-					else:
-						i += 1
-				if suffix > query[1]:
-					x = int((i - j)/2) + 1
-					auxSuffix = fnwick.addition(i) - fnwick.addition(j + x)
-					j += x + 1 if suffix > query[1] else 1
+			complement = fnwick.addition(n) - query[1]
+			if binSearch(complement, fnwick) or complement == 0:
+				res = "YES"
 			print(res)
 		else:
 			fnwick.update(query[1] - 1, query[2])
 		q -= 1
+
+
+# if __name__ == "__main__":
+# 	n = int(input())
+# 	arr = list(map(int, input().split()))
+# 	q = int(input())
+# 	fnwick = fenwick(n, arr=arr)
+# 	for i in range(n):
+# 		print(fnwick.addition(i), end=" ")
+# 	print("")
+# 	while q > 0:
+# 		query = list(map(int, input().split()))
+# 		if(query[0] == 2):
+# 			i, j = 0, -1
+# 			res = "NO"
+# 			while i < fnwick.maxList and j < fnwick.maxList:
+# 				suffix = fnwick.addition(i) - fnwick.addition(j)
+# 				if(suffix == query[1]):
+# 					res = "YES"
+# 					break
+# 				if suffix < query[1]:
+# 					x = int((n - i)/2) + 1
+# 					if x + i < n:
+# 						auxSuffix = fnwick.addition(i + x) - fnwick.addition(j)
+# 						i += (x + 1) if auxSuffix < query[1] else 1
+# 					else:
+# 						i += 1
+# 				if suffix > query[1]:
+# 					x = int((i - j)/2) + 1
+# 					auxSuffix = fnwick.addition(i) - fnwick.addition(j + x)
+# 					j += x + 1 if suffix > query[1] else 1
+# 			print(res)
+# 		else:
+# 			fnwick.update(query[1] - 1, query[2])
+# 		q -= 1
 
 # if __name__ == "__main__":
 # 	n = int(input())
