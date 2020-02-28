@@ -21,14 +21,17 @@ int main(int argc, char const *argv[]){
 			if (element != aux){
                 j = i;
 				cont = 1;
+				aux = element;
             }
 			arr.push_back(make_pair(j, cont++));
 		}
 		while (querys--){
 			cin >> lef >> rigt;
 			res = LLONG_MIN;
+			lef--;
+			rigt--;
 			while (lef <= rigt){
-				res = max(res, arr[rigt - 1].second - rigt + 2 + arr[rigt - 1].first);
+				res = (lef < arr[rigt].first)? max(res, arr[rigt].second):max(res, arr[rigt].second - arr[rigt - 1].second);
 				rigt = arr[rigt].first - 1;
 			}
 			std::cout << res << std::endl;
