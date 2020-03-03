@@ -1,5 +1,6 @@
 #include <vector>
 #include <iostream>
+#include <algorithm>
 #include <climits>
 #define ll long long 
 using namespace std;
@@ -8,8 +9,8 @@ ll log__2[MAXN + 1];
 
 class SparseTable{
 	private:
-		vector<ll> arr;
-		ll length, k, **ST;
+		vector<ll> arr, arrR;
+		ll length, k, **ST, **STr;
 	public:
 	SparseTable(vector<ll> arr, ll length){
 		this -> arr = arr;
@@ -34,7 +35,10 @@ void SparseTable::build(){
 		}
 }
 int SparseTable::query(int L, int R){
-	int j = log__2[R - L + 1];
+	ll j = log__2[R - L + 1];
+	ll res = this->ST[L][j];
+	if (R >= 1 << j && L + (1 << j) < this->length && this->arr[L + (1 << j)] == this->arr[R - (1 << j)])
+		return this->ST[L][j] + this->ST[R - (1 << j) + 1][j] - (L - R + 2 * (1 << j) - 1);
 	return max(this->ST[L][j], this->ST[R - (1 << j) + 1][j]);
 }
 

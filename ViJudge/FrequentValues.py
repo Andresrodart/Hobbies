@@ -21,6 +21,9 @@ class SparseTable:
 				i += 1
 	def query(self, L, R):
 		j = log2[R - L + 1]
+		if R >= 1 << j and L + (1 << j) < self.length and self.arr[L + (1 << j)] == self.arr[R - (1 << j)]:
+			print(self.arr[L + (1 << j)], self.arr[R - (1 << j)])
+			return self.ST[L][j] + self.ST[R - (1 << j) + 1][j] - (L - R + 2 * (1 << j) - 1);
 		return max(self.ST[L][j], self.ST[R - (1 << j) + 1][j])
 
 if __name__ == '__main__':
