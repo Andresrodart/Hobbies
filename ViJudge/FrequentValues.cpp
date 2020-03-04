@@ -10,7 +10,7 @@ ll arr[MAXN];
 class SegmentTree{
 	//private:
 	public:
-		ll ST[2 * MAXN][2], length;
+		ll ST[2 * MAXN][3], length;
 	//public:
 		SegmentTree(ll length, ll val){
 			this -> length = length;
@@ -19,19 +19,19 @@ class SegmentTree{
 		void build(/*ll (*f)(ll lChild, ll rChild)*/);
 		void arrOfOneVal(ll val);
 		void setVal(ll i, ll val);
+		ll query(ll l, ll r) 
 };
 void SegmentTree::build(){
 	/*after adding the array at the end of ST in ST[1..n) 
 	are empty and ST[n..2n) have the original array AKA leaves */
 	for (int i = this->length - 1; i > 0; --i){
 	/*now we make roots from bottom to top*/
-		if(this->ST[i<<1][0] == this->ST[i<<1|1][0]){
-			this->ST[i][0] = this->ST[i<<1][0];
+		if(this->ST[i<<1][2] == this->ST[i<<1|1][0])
 			this->ST[i][1] = this->ST[i<<1][1] + this->ST[i<<1|1][1];
-		}else{
-			this->ST[i][0] = (i%2 != 0) this->ST[i<<1][0]:this->ST[i<<1|1][0];
+		else
 			this->ST[i][1] = max(this->ST[i<<1][1], this->ST[i<<1|1][1]);
-		}
+		this->ST[i][0] = this->ST[i<<1][0];
+		this->ST[i][2] = this->ST[i<<1|1][2];
 	}
 }
 void SegmentTree::arrOfOneVal(ll val){
@@ -41,6 +41,15 @@ void SegmentTree::arrOfOneVal(ll val){
 // void SegmentTree::setVal(ll i, ll val){
 // 	this->ST[i] = val;
 // }
+
+ll SegmentTree::query(ll l, ll r) {  // sum on interval [l, r)
+  int res = 0;
+  for (l += this->length, r += this->length; l < r; l >>= 1, r >>= 1) {
+    if (l&1) res += this->ST[l++];
+    if (r&1) res += this->ST[--r];
+  }
+  return res;
+}
 int main(int argc, char const *argv[]){
 	ll tests = 1, n, querys, element, rigt, lef, res, cont = 1, aux, j = 0;
 	scanf("%d", tests);
@@ -48,10 +57,14 @@ int main(int argc, char const *argv[]){
   		n = tests;
   		scanf("%d", querys);
  		SegmentTree ST{n, 1};
-  		for (int i = 0; i < n; i++)
-  			scanf("%d", ST.ST[n + i][0]);
+  		for (int i = 0; i < n; i++){
+  			scanf("%d", element);
+			ST.ST[n + i][0] = element;
+			ST.ST[n + i][2] = element;
+		}
+		ST.build();
   		while (querys--){
-  			cin >> lef >> rigt;
+  			scanf("%d %d", lef, rigt);
   			res = LLONG_MIN;
   			std::cout << ST.query(lef - 1, rigt - 1) << std::endl;
   		}
