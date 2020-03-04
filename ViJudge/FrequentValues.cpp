@@ -1,73 +1,124 @@
 #include <vector>
-#include <iostream>
+#include <stdio.h>
 #include <algorithm>
 #include <climits>
 #define ll long long 
 using namespace std;
 const unsigned int MAXN = 100000;
 ll log__2[MAXN + 1];
-
-class SparseTable{
-	private:
-		vector<ll> arr, arrR;
-		ll length, k, **ST, **STr;
+ll arr[MAXN];
+class SegmentTree{
+	//private:
 	public:
-	SparseTable(vector<ll> arr, ll length){
-		this -> arr = arr;
-		this -> length = length;
-		this -> k = log__2[MAXN] + 1;
-		this -> ST = (ll **) malloc(MAXN * sizeof(ll *));
-		for (size_t i = 0; i < MAXN; i++)
-			this -> ST[i] = (ll *) malloc((this -> k + 1) * sizeof(ll));
-		build();
-	}
-	void build();
-	int query(int L, int R);
-};
-void SparseTable::build(){
-	for (size_t i = 0; i < this->length; i++)
-		this->ST[i][0] = 1;
-	for(int j = 1; j < this->k; j++)
-		for(int i = 0; i + (1 << j) <= this->length; i++){
-			int a = this->ST[i][j - 1];
-			int b = this->ST[i + (1 << (j - 1))][j - 1];
-			this->ST[i][j] = (this->arr[i + (1 << (j - 1)) - 1] == this->arr[i + (1 << (j - 1))]) ? (a + b):max(a, b);
+		ll ST[2 * MAXN][2], length;
+	//public:
+		SegmentTree(ll length, ll val){
+			this -> length = length;
+			arrOfOneVal(val);
 		}
+		void build(/*ll (*f)(ll lChild, ll rChild)*/);
+		void arrOfOneVal(ll val);
+		void setVal(ll i, ll val);
+};
+void SegmentTree::build(){
+	/*after adding the array at the end of ST in ST[1..n) 
+	are empty and ST[n..2n) have the original array AKA leaves */
+	for (int i = this->length - 1; i > 0; --i){
+	/*now we make roots from bottom to top*/
+		if(this->ST[i<<1][0] == this->ST[i<<1|1][0]){
+			this->ST[i][0] = this->ST[i<<1][0];
+			this->ST[i][1] = this->ST[i<<1][1] + this->ST[i<<1|1][1];
+		}else{
+			this->ST[i][0] = (i%2 != 0) this->ST[i<<1][0]:this->ST[i<<1|1][0];
+			this->ST[i][1] = max(this->ST[i<<1][1], this->ST[i<<1|1][1]);
+		}
+	}
 }
-int SparseTable::query(int L, int R){
-	ll j = log__2[R - L + 1];
-	ll res = this->ST[L][j];
-	if (R >= 1 << j && L + (1 << j) < this->length && this->arr[L + (1 << j)] == this->arr[R - (1 << j)])
-		return this->ST[L][j] + this->ST[R - (1 << j) + 1][j] - (L - R + 2 * (1 << j) - 1);
-	return max(this->ST[L][j], this->ST[R - (1 << j) + 1][j]);
+void SegmentTree::arrOfOneVal(ll val){
+	for(size_t i = this->length; i < 2 * this->length; i++)
+		this->ST[i][1] = 1;
 }
-
+// void SegmentTree::setVal(ll i, ll val){
+// 	this->ST[i] = val;
+// }
 int main(int argc, char const *argv[]){
 	ll tests = 1, n, querys, element, rigt, lef, res, cont = 1, aux, j = 0;
-	log__2[1] = 0;
-	for (int i = 2; i <= MAXN; i++)
-    	log__2[i] = log__2[i/2] + 1;
- 	cin >> tests;
- 	while (tests != 0){
- 		n = tests;
- 		cin >> querys;
- 		vector<ll> arr;
-        for (int i = 0; i < n; i++){
- 			cin >> element;
- 			arr.push_back(element);
- 		}
-		SparseTable ST{arr, n};
- 		while (querys--){
- 			cin >> lef >> rigt;
- 			res = LLONG_MIN;
- 			std::cout << ST.query(lef - 1, rigt - 1) << std::endl;
- 		}
- 		cin >> tests;
- 	}
+	scanf("%d", tests);
+  	while (tests != 0){
+  		n = tests;
+  		scanf("%d", querys);
+ 		SegmentTree ST{n, 1};
+  		for (int i = 0; i < n; i++)
+  			scanf("%d", ST.ST[n + i][0]);
+  		while (querys--){
+  			cin >> lef >> rigt;
+  			res = LLONG_MIN;
+  			std::cout << ST.query(lef - 1, rigt - 1) << std::endl;
+  		}
+  		cin >> tests;
+  	}
 	return 0;
 }
 
+// class SparseTable{
+// 	private:
+// 		vector<ll> arr, arrR;
+// 		ll length, k, **ST, **STr;
+// 	public:
+// 	SparseTable(vector<ll> arr, ll length){
+// 		this -> arr = arr;
+// 		this -> length = length;
+// 		this -> k = log__2[MAXN] + 1;
+// 		this -> ST = (ll **) malloc(MAXN * sizeof(ll *));
+// 		for (size_t i = 0; i < MAXN; i++)
+// 			this -> ST[i] = (ll *) malloc((this -> k + 1) * sizeof(ll));
+// 		build();
+// 	}
+// 	void build();
+// 	int query(int L, int R);
+// };
+// void SparseTable::build(){
+// 	for (size_t i = 0; i < this->length; i++)
+// 		this->ST[i][0] = 1;
+// 	for(int j = 1; j < this->k; j++)
+// 		for(int i = 0; i + (1 << j) <= this->length; i++){
+// 			int a = this->ST[i][j - 1];
+// 			int b = this->ST[i + (1 << (j - 1))][j - 1];
+// 			this->ST[i][j] = (this->arr[i + (1 << (j - 1)) - 1] == this->arr[i + (1 << (j - 1))]) ? (a + b):max(a, b);
+// 		}
+// }
+// int SparseTable::query(int L, int R){
+// 	ll j = log__2[R - L + 1];
+// 	ll res = this->ST[L][j];
+// 	if (R >= 1 << j && L + (1 << j) < this->length && this->arr[L + (1 << j)] == this->arr[R - (1 << j)])
+// 		return this->ST[L][j] + this->ST[R - (1 << j) + 1][j] - (L - R + 2 * (1 << j) - 1);
+// 	return max(this->ST[L][j], this->ST[R - (1 << j) + 1][j]);
+// }
 
+// int main(int argc, char const *argv[]){
+// 	ll tests = 1, n, querys, element, rigt, lef, res, cont = 1, aux, j = 0;
+// 	log__2[1] = 0;
+// 	for (int i = 2; i <= MAXN; i++)
+//     	log__2[i] = log__2[i/2] + 1;
+//  	cin >> tests;
+//  	while (tests != 0){
+//  		n = tests;
+//  		cin >> querys;
+//  		vector<ll> arr;
+//         for (int i = 0; i < n; i++){
+//  			cin >> element;
+//  			arr.push_back(element);
+//  		}
+// 		SparseTable ST{arr, n};
+//  		while (querys--){
+//  			cin >> lef >> rigt;
+//  			res = LLONG_MIN;
+//  			std::cout << ST.query(lef - 1, rigt - 1) << std::endl;
+//  		}
+//  		cin >> tests;
+//  	}
+// 	return 0;
+// }
 
 // #include <utility>
 // #include <vector>
