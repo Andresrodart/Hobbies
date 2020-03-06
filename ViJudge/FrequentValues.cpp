@@ -45,7 +45,7 @@ void buildST(ll length){
 				bl = SaparTree[i + (1 << (j - 1))][j - 1][0],
 				br = SaparTree[i + (1 << (j - 1))][j - 1][2];
 			if(arr[i + (1 << (j - 1)) - 1] == arr[i + (1 << (j - 1))]){
-				if(arr[i] == arr[i + (1 << (j - 1)) + j - 1]){
+				if(arr[i] == arr[i + 2*(1 << (j - 1))- 1]){
 					SaparTree[i][j][1] = (a + b);
 					SaparTree[i][j][0] = (a + b); 
 					SaparTree[i][j][2] = (a + b);
