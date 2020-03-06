@@ -19,7 +19,85 @@ initLog2 init;
 const ll k = log__2[MAXN] + 1;
 ll SaparTree[MAXN][17][3];
 vector<ll> arr;
-class SparseTable{
+
+int queryST(int L, int R){
+	ll j = log__2[R - L + 1];
+	ll resA = SaparTree[L][j][1];
+	ll al = SaparTree[L][j][0];
+	ll ar = SaparTree[L][j][2];
+	ll resB = SaparTree[R - (1 << j) + 1][j][1];
+	ll bl = SaparTree[R - (1 << j) + 1][j][0];
+	ll br = SaparTree[R - (1 << j) + 1][j][2];
+	if (arr[L + (1 << j) - 1] == arr[R - (1 << j) + 1] and L != R)
+			return max(resA, max(resB, ar + bl - (L - R + 2*(1 << j) - 1)));
+	return max(resA, resB);
+}
+
+void buildST(ll length){
+	for (size_t i = 0; i < length; i++)
+		SaparTree[i][0][0] = 1, SaparTree[i][0][1] = 1, SaparTree[i][0][2] = 1;
+	for(int j = 1; j < k; j++)
+		for(int i = 0; i + (1 << j) <= length; i++){
+			int a = SaparTree[i][j - 1][1],
+				al = SaparTree[i][j - 1][0],
+				ar = SaparTree[i][j - 1][2];
+			int b = SaparTree[i + (1 << (j - 1))][j - 1][1],
+				bl = SaparTree[i + (1 << (j - 1))][j - 1][0],
+				br = SaparTree[i + (1 << (j - 1))][j - 1][2];
+			if(arr[i + (1 << (j - 1)) - 1] == arr[i + (1 << (j - 1))]){
+				if(arr[i] == arr[i + (1 << (j - 1)) + j - 1]){
+					SaparTree[i][j][1] = (a + b);
+					SaparTree[i][j][0] = (a + b); 
+					SaparTree[i][j][2] = (a + b);
+				}
+				else if(arr[i] == arr[i + (1 << (j - 1))]){
+					SaparTree[i][j][1] = max(b, a + bl); 
+					SaparTree[i][j][0] = (al + bl);
+					SaparTree[i][j][2] = br;
+				}
+				else if(arr[i + (1 << (j - 1))] == arr[i + (1 << (j - 1)) + j - 1]){
+					SaparTree[i][j][1] = max(a, b + ar),
+					SaparTree[i][j][0] = al, 
+					SaparTree[i][j][2] = (br + ar);
+				}
+				else{
+					SaparTree[i][j][1] = max(a, max(b, ar + bl)), 
+					SaparTree[i][j][0] = al, 
+					SaparTree[i][j][2] = br;
+				}
+			}
+			else{
+				SaparTree[i][j][1] = max(a, b), 
+				SaparTree[i][j][0] = al, 
+				SaparTree[i][j][2] = br;
+			}
+		}
+}
+
+
+//SparseTable ST{};
+int main(int argc, char const *argv[]){
+	ll tests = 1, n, querys, element, rigt, lef;
+ 	cin >> tests;
+ 	while (tests != 0){
+ 		n = tests;
+ 		cin >> querys;
+		arr = {};
+        for (int i = 0; i < n; i++){
+ 			cin >> element;
+ 			arr.push_back(element);
+ 		}
+		//ST.setArr(arr, n);
+		buildST(n);
+ 		while (querys--){
+ 			cin >> lef >> rigt;
+ 			std::cout << queryST(lef - 1, rigt - 1) << std::endl;
+ 		}
+ 		cin >> tests;
+ 	}
+	return 0;
+}
+/*class SparseTable{
 	private:
 		vector<ll> arr, arrR;
 		ll length, k, ***ST;
@@ -104,81 +182,7 @@ int SparseTable::query(int L, int R){
 	if (resA == resB && resA == j && L != R - (1 << j) + 1)
 		return resA + resB - (L - R + 2 * (1 << j) - 1);
 	return max(resA, resB);
-}
-int queryST(int L, int R){
-	ll j = log__2[R - L + 1];
-	ll resA = SaparTree[L][j][1];
-	ll resB = SaparTree[R - (1 << j) + 1][j][1];
-	if (resA == resB && resA == j && L != R - (1 << j) + 1)
-		return resA + resB - (L - R + 2 * (1 << j) - 1);
-	return max(resA, resB);
-}
-
-void buildST(ll length){
-	for (size_t i = 0; i < length; i++)
-		SaparTree[i][0][0] = 1, SaparTree[i][0][1] = 1, SaparTree[i][0][2] = 1;
-	for(int j = 1; j < k; j++)
-		for(int i = 0; i + (1 << j) <= length; i++){
-			int a = SaparTree[i][j - 1][1],
-				al = SaparTree[i][j - 1][0],
-				ar = SaparTree[i][j - 1][2];
-			int b = SaparTree[i + (1 << (j - 1))][j - 1][1],
-				bl = SaparTree[i + (1 << (j - 1))][j - 1][0],
-				br = SaparTree[i + (1 << (j - 1))][j - 1][2];
-			if(arr[i + (1 << (j - 1)) - 1] == arr[i + (1 << (j - 1))]){
-				if(arr[i] == arr[i + (1 << (j - 1)) + j - 1]){
-					SaparTree[i][j][1] = (a + b);
-					SaparTree[i][j][0] = (a + b); 
-					SaparTree[i][j][2] = (a + b);
-				}
-				else if(arr[i] == arr[i + (1 << (j - 1))]){
-					SaparTree[i][j][1] = max(b, a + bl); 
-					SaparTree[i][j][0] = (al + bl);
-					SaparTree[i][j][2] = br;
-				}
-				else if(arr[i + (1 << (j - 1))] == arr[i + (1 << (j - 1)) + j - 1]){
-					SaparTree[i][j][1] = max(a, b + ar),
-					SaparTree[i][j][0] = al, 
-					SaparTree[i][j][2] = (br + ar);
-				}
-				else{
-					SaparTree[i][j][1] = max(a, max(b, ar + bl)), 
-					SaparTree[i][j][0] = al, 
-					SaparTree[i][j][2] = br;
-				}
-			}
-			else{
-				SaparTree[i][j][1] = max(a, b), 
-				SaparTree[i][j][0] = al, 
-				SaparTree[i][j][2] = br;
-			}
-		}
-}
-
-
-//SparseTable ST{};
-int main(int argc, char const *argv[]){
-	ll tests = 1, n, querys, element, rigt, lef;
- 	cin >> tests;
- 	while (tests != 0){
- 		n = tests;
- 		cin >> querys;
-		arr = {};
-        for (int i = 0; i < n; i++){
- 			cin >> element;
- 			arr.push_back(element);
- 		}
-		//ST.setArr(arr, n);
-		buildST(n);
- 		while (querys--){
- 			cin >> lef >> rigt;
- 			std::cout << queryST(lef - 1, rigt - 1) << std::endl;
- 		}
- 		cin >> tests;
- 	}
-	return 0;
-}
-
+}*/
 // ll arr[MAXN];
 // class SegmentTree{
 // 	//private:
