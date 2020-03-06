@@ -8,23 +8,49 @@ class SparseTable:
 		self.arr = arr
 		self.length = length if length else len(arr)
 		self.k = log2[MAXN] + 1
-		self.ST = [[1] * (self.k + 1) for _ in range(MAXN)]
+		self.ST = [[[1 for _ in range(3)] for _ in range(self.k + 1)] for _ in range(MAXN)]
 		self.build()
 	def build(self, arr = None):
 		#ToDo if arr reset k and length
 		for j in range(1, self.k + 1):
 			i = 0
 			while(i + (1 << j) <= self.length):
-				a = self.ST[i][j - 1]
-				b = self.ST[i + (1 << (j - 1))][j - 1]
-				self.ST[i][j] = (a + b) if self.arr[i + (1 << (j - 1)) - 1] == self.arr[i + (1 << (j - 1))] else max(a, b) 
+				a = self.ST[i][j - 1][1]
+				al = self.ST[i][j - 1][0] 
+				ar = self.ST[i][j - 1][2]
+				b = self.ST[i + (1 << (j - 1))][j - 1][1]
+				bl = self.ST[i + (1 << (j - 1))][j - 1][0] 
+				br = self.ST[i + (1 << (j - 1))][j - 1][2]
+				if self.arr[i + (1 << (j - 1)) - 1] == self.arr[i + (1 << (j - 1))]:
+					if(self.arr[i] == self.arr[i + (1 << (j - 1)) + j - 1]):
+						self.ST[i][j][1] = (a + b)
+						self.ST[i][j][0] = (a + b) 
+						self.ST[i][j][2] = (a + b)
+					elif self.arr[i] == self.arr[i + (1 << (j - 1))]:
+						self.ST[i][j][1] = max(b, a + bl)
+						self.ST[i][j][0] = (al + bl)
+						self.ST[i][j][2] = br
+					elif self.arr[i + (1 << (j - 1))] == self.arr[i + (1 << (j - 1)) + j - 1]:
+						self.ST[i][j][1] = max(a, b + ar)
+						self.ST[i][j][0] = al
+						self.ST[i][j][2] = (br + ar)
+					else:
+						self.ST[i][j][1] = max(a, max(b, ar + bl))
+						self.ST[i][j][0] = al 
+						self.ST[i][j][2] = br
+				else:
+					self.ST[i][j][1] = max(a, b)
+					self.ST[i][j][0] = al
+					self.ST[i][j][2] = br
 				i += 1
+
 	def query(self, L, R):
 		j = log2[R - L + 1]
-		if R >= 1 << j and L + (1 << j) < self.length and self.arr[L + (1 << j)] == self.arr[R - (1 << j)]:
-			print(self.arr[L + (1 << j)], self.arr[R - (1 << j)])
-			return self.ST[L][j] + self.ST[R - (1 << j) + 1][j] - (L - R + 2 * (1 << j) - 1);
-		return max(self.ST[L][j], self.ST[R - (1 << j) + 1][j])
+		resA = self.ST[L][j][1]
+		resB = self.ST[R - (1 << j) + 1][j][1]
+		if resA == resB and resA == j and L != R - (1 << j) + 1:
+			return resA + resB - (L - R + 2 * (1 << j) - 1)
+		return max(resA, resB)
 
 if __name__ == '__main__':
 	n, query = map(int, input().split())
