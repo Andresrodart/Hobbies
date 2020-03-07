@@ -1,8 +1,8 @@
-#include <vector>
-//#include <stdio.h>
-#include <algorithm>
-#include <iostream>
-#include <climits>
+//#include <vector>
+#include <stdio.h>
+//#include <algorithm>
+//#include <iostream>
+//#include <climits>
 #define ll long long 
 using namespace std;
 const ll MAXN = 100000;
@@ -18,7 +18,7 @@ class initLog2{
 initLog2 init;
 const ll k = log__2[MAXN] + 1;
 ll SaparTree[MAXN][17][3];
-vector<ll> arr;
+arr[MAXN];
 
 int queryST(int L, int R){
 	ll j = log__2[R - L + 1];
@@ -78,22 +78,18 @@ void buildST(ll length){
 //SparseTable ST{};
 int main(int argc, char const *argv[]){
 	ll tests = 1, n, querys, element, rigt, lef;
- 	cin >> tests;
+ 	scanf("%d",&tests);
  	while (tests != 0){
  		n = tests;
- 		cin >> querys;
-		arr = {};
-        for (int i = 0; i < n; i++){
- 			cin >> element;
- 			arr.push_back(element);
- 		}
-		//ST.setArr(arr, n);
+ 		scanf("%d", querys);
+                for (int i = 0; i < n; i++)
+                    scanf("%d", arr + i]);
 		buildST(n);
  		while (querys--){
- 			cin >> lef >> rigt;
- 			std::cout << queryST(lef - 1, rigt - 1) << std::endl;
+ 			scanf("%d %d", &lef, &rigt);
+ 			printf("%d\n", queryST(lef - 1, rigt - 1));
  		}
- 		cin >> tests;
+ 		scanf("%d", &tests);
  	}
 	return 0;
 }
