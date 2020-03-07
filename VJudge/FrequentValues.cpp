@@ -17,10 +17,12 @@ class initLog2{
 };
 initLog2 init;
 const ll k = log__2[MAXN] + 1;
-ll SaparTree[MAXN][17][3];
-arr[MAXN];
-
-int queryST(int L, int R){
+ll SaparTree[MAXN][18][3];
+ll arr[MAXN];
+int max(ll a, ll b){
+	return (a > b)? a:b;
+}
+ll queryST(int L, int R){
 	ll j = log__2[R - L + 1];
 	ll resA = SaparTree[L][j][1];
 	ll al = SaparTree[L][j][0];
@@ -75,21 +77,20 @@ void buildST(ll length){
 }
 
 
-//SparseTable ST{};
 int main(int argc, char const *argv[]){
 	ll tests = 1, n, querys, element, rigt, lef;
- 	scanf("%d",&tests);
+ 	scanf("%lld",&tests);
  	while (tests != 0){
  		n = tests;
- 		scanf("%d", querys);
-                for (int i = 0; i < n; i++)
-                    scanf("%d", arr + i]);
+ 		scanf("%lld", &querys);
+		for (int i = 0; i < n; i++)
+			scanf("%lld", arr + i);	
 		buildST(n);
  		while (querys--){
- 			scanf("%d %d", &lef, &rigt);
- 			printf("%d\n", queryST(lef - 1, rigt - 1));
+ 			scanf("%lld %lld", &lef, &rigt);
+ 			printf("%lld\n", queryST(lef - 1, rigt - 1));
  		}
- 		scanf("%d", &tests);
+ 		scanf("%lld", &tests);
  	}
 	return 0;
 }
@@ -179,6 +180,7 @@ int SparseTable::query(int L, int R){
 		return resA + resB - (L - R + 2 * (1 << j) - 1);
 	return max(resA, resB);
 }*/
+//SparseTable ST{};
 // ll arr[MAXN];
 // class SegmentTree{
 // 	//private:
@@ -226,19 +228,19 @@ int SparseTable::query(int L, int R){
 // }
 // int main(int argc, char const *argv[]){
 // 	ll tests = 1, n, querys, element, rigt, lef, res, cont = 1, aux, j = 0;
-// 	scanf("%d", tests);
+// 	scanf("%lld", tests);
 //   	while (tests != 0){
 //   		n = tests;
-//   		scanf("%d", querys);
+//   		scanf("%lld", querys);
 //  		SegmentTree ST{n, 1};
 //   		for (int i = 0; i < n; i++){
-//   			scanf("%d", element);
+//   			scanf("%lld", element);
 // 			ST.ST[n + i][0] = element;
 // 			ST.ST[n + i][2] = element;
 // 		}
 // 		ST.build();
 //   		while (querys--){
-//   			scanf("%d %d", lef, rigt);
+//   			scanf("%lld %lld", lef, rigt);
 //   			res = LLONG_MIN;
 //   			std::cout << ST.query(lef - 1, rigt - 1) << std::endl;
 //   		}
