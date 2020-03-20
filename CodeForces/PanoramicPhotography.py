@@ -1,3 +1,4 @@
+#Bad
 houses = int(input())
 photos = list(map(int, input().split()))
 numStudents = 0

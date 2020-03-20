@@ -17,5 +17,5 @@ def rotLeft(a, d):
 
 #Proposal 3, if deques can be use;
 def rotLeft(a, d):
-    a.rotate(-d);
-    return a;
+    a.rotate(-d)
+    return a

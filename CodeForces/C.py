@@ -1,3 +1,4 @@
+#Not tested
 def goodArray(lenA, arr):
     k = 0
     jIndexs = []
