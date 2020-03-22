@@ -1,20 +1,7 @@
 from sys import stdin, stdout
 
 sheldonNumbers = set()
-class fenwick:
-	def __init__(self, n):
-		self.maxList = n
-		self.fenwick = [0] * n
-	def update(self, l, delta):
-		while l < self.maxList:
-			self.fenwick[l] += delta
-			l = l | (l + 1)
-	def add(self, r):
-		res = 0
-		while r >= 0:
-			res += self.fenwick[r]
-			r = (r & (r + 1)) - 1
-		return res
+
 def generateOne(n, m, k):
     res = ''
     for i in range(n):
