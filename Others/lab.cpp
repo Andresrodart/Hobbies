@@ -17,5 +17,8 @@ int main(int argc, char const *argv[]){
     };
     for(auto var : aux)
         std::cout << var.second << std::endl;
+    string str = "Hello World!";
+    str.erase(remove_if(str.begin(), str.end(), ::isspace), str.end());
+    std::cout << str << std::endl << (char) 300 << endl;
     return 0;
 }

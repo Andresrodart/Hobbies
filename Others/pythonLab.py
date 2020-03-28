@@ -15,3 +15,5 @@ print()
 for item in HT.values(): print(item, end = ' ')
 print()
 print(bool(123 & 1), not(100000 & 1), bool(100000 & 1))
+matrix = [[1, 2, 3, 4], [ 1, 2, 3, 4], [ 1, 2, 3, 4], [ 1, 2, 3, 4], [1, 2, 3, 4], [ 1, 2, 3, 4], [ 1, 2, 3, 4], [ 1, 2, 3, 4]]
+print([x for x in range(int(len(matrix)/2), 0, -1)])

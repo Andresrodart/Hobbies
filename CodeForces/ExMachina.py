@@ -1,3 +1,4 @@
+# BAD
 import sys
 indexes = []
 N = int(input())
