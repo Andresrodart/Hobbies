@@ -7,13 +7,14 @@
 #endif
 using namespace std;
 
+vector<uint64_t> occurrenceOfIthValue(1200300);
+
 int main(int argc, char const *argv[]){
-	ios_base::sync_with_stdio(False);
 	uint64_t n, k, left = 0, right = 0, differentValues = 0, answerL = 0, answerR = 0;
-	vector<uint64_t> occurrenceOfIthValue(1200300);
+	ios_base::sync_with_stdio(False);
 	cin >> n >> k;
-	vector<uint64_t> arr(n, 0);
-	for (left = 0; left < n; left++)	cin >> arr[right];
+	vector<uint64_t> arr(n);
+	for (left = 0; left < n; left++) cin >> arr[left];
 	for (left = 0; left < n; left++){
 		while (right < n){
 			if(++occurrenceOfIthValue[arr[right]] == 1) differentValues++;
