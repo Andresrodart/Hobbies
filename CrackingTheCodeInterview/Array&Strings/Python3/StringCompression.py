@@ -4,12 +4,10 @@ def stringCompression(string):
 		if char != auxChar or auxChar is None:									# O(1)
 			auxChar, count = char, 1												# O(1)
 			newString.append(auxChar)												# O(1)
-			newString.append(1)														# O(1)
+			newString.append('1')														# O(1)
 		else:																	# O(1)
 			count += 1																# O(1)
-			newString[-1] = count													# O(1)
-	for index, elem in enumerate(newString):								# O(n)
-		if isinstance(elem, int): newString[index] = str(elem)					# O(1)
+			newString[-1] = str(count)												# O(1)
 	return string if len(newString) >= len(string) else ''.join(newString)	# O(1)
 
 def stringCompressionList(string):
