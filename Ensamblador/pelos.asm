@@ -75,23 +75,23 @@ _atoi proc
 _atoi endp
 binario proc
 	mov bx, 2d
-	mov cx, 0
+	mov si, 0
 	mov ax, numero_decimal
 	continue_:
 		div bx
-		mov vec_binario[cx], ah
+		mov vec_binario[si], ah
 		mov ah, 0
-		inc cx
-		cmp  al, 1
+		inc si
+		cmp al, 1
 		jge continue_
 	imprime_bin:
 		mov dx, 0
 		mov ah, 2h                  ; imprimir caracter
-		mov dl, vec_binario[cx - 1]
+		mov dl, vec_binario[si - 1]
 		add dl, 48d
 		int 21h
-		dec cx
-		cmp cx, 0
+		dec si
+		cmp si, 1
 		jge imprime_bin
     ret
 binario endp
