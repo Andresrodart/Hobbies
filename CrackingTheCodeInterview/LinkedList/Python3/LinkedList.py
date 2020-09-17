@@ -138,6 +138,17 @@ class LinkedList:
 		while(iterator is not None):
 			self.length +=1
 			iterator = iterator.next
+	def reverse(self):
+		tail = self.head
+		prev =  self._reverse(self.head.next)
+		prev.next, tail.next = tail, None
+	def _reverse(self, next_):
+		if next_.next is None:
+			self.head = next_
+			return self.head
+		prev = self._reverse(next_.next)
+		prev.next = next_
+		return next_
 def reverseSum(numA, numB):
 	res = LinkedList()
 	iA, iB, carry = numA.head, numB.head, False
@@ -228,4 +239,8 @@ if __name__ == "__main__":
 	print(LL.hasLoop())
 	LL.last().next = LL.findIth(3)
 	print(LL.hasLoop().data)
+	LL = LinkedList(arry = list('xbbxxbba'))
+	print(LL.stringtify())
+	LL.reverse()
+	print(LL.stringtify())
 	
