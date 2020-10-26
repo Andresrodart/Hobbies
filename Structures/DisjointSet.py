@@ -1,7 +1,7 @@
 class DisjointSet:
 	def __init__(self, size):
-		self.parent = [i for i in range(size)]
-		self.size = [1 for _ in range(size)]
+		self.parent = [i for i in range(size)] # Todos los nodos son sus propios padres
+		self.size = [1 for _ in range(size)]	# Todos tienen tamaño uno
 	def make_set(self, v):
 		self.parent[v] = v
 	def union_sets(self, a, b):
