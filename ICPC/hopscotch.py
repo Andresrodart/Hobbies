@@ -14,19 +14,21 @@ class edge:
 
 def dijkstra(grid, k, points):
 	heap = []
+	checked = {}
 	for nx, ny in points[0]:
 		heapq.heappush(heap, edge(0, (nx, ny)))
-	actual = heapq.heappop(heap)
-	i, j = actual.cord
-	distance = 0
 	while heap:
-		if grid[i][j] == k: return distance
-		for nx, ny in points[grid[i][j]]:
-			distance = abs(i - nx) + abs(j - ny)
-			heapq.heappush(heap, edge(distance, (nx, ny)))
 		actual = heapq.heappop(heap)
 		i, j = actual.cord
-		print(actual)
+		if grid[i][j] == k: return actual.distance
+		for nx, ny in points[grid[i][j]]:
+			if (nx, ny) not in checked: 
+				distance = abs(i - nx) + abs(j - ny) + actual.distance
+				checked[(nx, ny)] = edge(distance, (nx, ny))
+			else: 
+				distance = min(abs(i - nx) + abs(j - ny) +  actual.distance, checked[(nx, ny)].distance)
+				checked[(nx, ny)].distance = distance
+			heapq.heappush(heap, checked[(nx, ny)])
 	return sys.maxsize
 
 if __name__ == "__main__":	
