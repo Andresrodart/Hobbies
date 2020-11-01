@@ -22,7 +22,7 @@ long long int bs(long long int number, long long int max_difficulty, vector<int>
 	return abs(aux - number);
 }
 
-long long int solve(vector<int> p, vector<int> q, long long int index,  long long int n, long long int s){
+long long int solve(vector<int> p, vector<int> q, long long int n, long long int s){
 	long long int res = 0;
 	for (long long int i = index + n - 1; i >= index; i--){
 		n = q[i];
@@ -38,7 +38,7 @@ int main(int argc, char const *argv[]){
 	vector<int> q_arry;
 	vector<int> aux_arry;
 	long long int res = INT_MAX;
-	long long int n, p, q, s, aux; // = map(int, input().rstrip().split())
+	long long int n, p, q, s, aux;
 	cin >> n >> p >> q >> s;	
 	while(p--){
 		cin >> aux;
@@ -50,14 +50,8 @@ int main(int argc, char const *argv[]){
 		q_arry.push_back(aux);
 	}
 	sort(q_arry.begin(), q_arry.end()); 
-	if (p_arry.size() > q_arry.size()){
-		aux_arry = q_arry;
-		q_arry = p_arry;
-		p_arry = aux_arry;
-	}
 	
-	for (long long int i = 0; i < q_arry.size() - n + 1; i++)
-		res = min(res, solve(p_arry, q_arry, i, n, s));
+	res = solve(p_arry, q_arry, n, s);
 	cout << ((res <= s) ? res : -1);
 	return 0;
 }
