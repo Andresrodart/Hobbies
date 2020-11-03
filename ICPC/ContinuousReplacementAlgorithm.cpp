@@ -6,49 +6,47 @@
 #define False (!True)
 #endif
 
-std::string dfs(std::string u, std::unordered_map< std::string, std::vector<std::string> > &nodes){
-	std::unordered_set<std::string> visited;
-	std::stack<std::string> stack; stack.push(u);
-	std::string min_item = u;
-	while (stack.size() > 0){
-		u = stack.top(); stack.pop();
-		std::unordered_set<std::string>::const_iterator got = visited.find(u);
-		if (got == visited.end()){
-			// std::cout << "min_item " << u <<std::endl; 
-			visited.insert(u);
-			if (min_item.size() == u.size()) 
-				min_item = (std::lexicographical_compare(min_item.begin(), min_item.end(), u.begin(), u.end()))? min_item: u;
-			else
-				min_item = (min_item.size() < u.size())? min_item: u;
-			for (auto child: nodes[u]) stack.push(child);
-		}
-	}
-	return min_item;
+bool smaller(std::string a, std::string b){
+	if(a.size() == 0) return False;
+	else if(b.size() == 0) return True;
+	else if(a.size() == b.size()) return std::lexicographical_compare(a.begin(), a.end(), b.begin(), b.end());
+	return a.size() < b.size();
 }
+
+std::string solve(std::string u, std::unordered_map< std::string, std::string > &nodes){
+	u = nodes[u];
+	return u;
+}
+
 int main(int argc, char const *argv[]){
 	std::ios_base::sync_with_stdio(False);
 	uintmax_t N;
-	std::string u, v;
+	std::string u, v, x, little;
 	std::cin >> N;
 	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
-	std::unordered_map< std::string, std::vector<std::string> > nodes;
+	std::unordered_map< std::string, std::string > nodes;
 	while (N--){
 		std::cin >> u >> v;
 		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
-		nodes[u].push_back(v); //.insert(std::make_pair(u, std::vector<std::string> ()));
-		nodes[v].push_back(u);
+		x = (nodes[u].size() > nodes[v].size())? nodes[u] : nodes[v];
+		little = smaller(u, v)? (smaller(u, x)? u:x) : (smaller(v, x)? v:x);
+		nodes[x] = little;
+		nodes[u] = little;
+		nodes[v] = little;
 	}
 
 	std::string message;
 	std::getline(std::cin, message);
 	std::istringstream ss(message);
     std::string word; // for storing each word
-
+	ss >> word;
+	if (nodes[word].size() > 0) std::cout << solve(word, nodes);
+	else std::cout << word;
     while (ss >> word){
-		// std::unordered_map< std::string, std::vector<std::string> >::const_iterator got = nodes.find (word);
-		if (nodes[word].size() > 0) std::cout << dfs(word, nodes) << " ";
-		else std::cout << word << " ";
+		if (nodes[word].size() > 0) std::cout << " " << solve(word, nodes);
+		else std::cout << " " << word;
     }
+	std::cout << std::endl;
 	return 0;
 }
 // 8
