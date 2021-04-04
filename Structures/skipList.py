@@ -8,7 +8,7 @@ class skipList:
             while vale >= node.value:
                 node = node.next
         return node
-    def inster(self, value)
+    def inster(self, value):
         node, q, i, coin = self.search(value), None, True
         while coin:
             i += 1
@@ -16,4 +16,4 @@ class skipList:
                 h += 1
                 self.createNewLevel()
             while p.above is None:
-                
+                pass

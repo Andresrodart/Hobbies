@@ -14,8 +14,14 @@ bool smaller(std::string a, std::string b){
 }
 
 std::string solve(std::string u, std::unordered_map< std::string, std::string > &nodes){
-	u = nodes[u];
-	return u;
+	std::string x, little;
+	x = nodes[u];
+	little = smaller(nodes[u], nodes[x])?  nodes[u]: nodes[x];
+	while( little.compare(u)){
+		nodes[x] = little;
+		nodes[u] = little;
+	}
+	return little;
 }
 
 int main(int argc, char const *argv[]){

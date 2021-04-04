@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <bits/stdc++.h> 
+#include <curses.h>
 
 #define ll long long 
 using namespace std;
