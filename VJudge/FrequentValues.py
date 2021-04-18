@@ -45,16 +45,12 @@ class SparseTable:
 				i += 1
 
 	def query(self, L, R):
-		j = log2[R - L + 1]
-		resA = self.ST[L][j][1]
-		al = self.ST[L][j][0] 
-		ar = self.ST[L][j][2]
-		resB = self.ST[R - (1 << j) + 1][j][1]
-		bl = self.ST[R - (1 << j) + 1][j][0] 
-		br = self.ST[R - (1 << j) + 1][j][2]
-		if self.arr[L + (1 << j) - 1] == self.arr[R - (1 << j) + 1] and L != R:
-			return max(resA, max(resB, ar + bl - (L - R + 2*(1 << j) - 1)))
-		return max(resA, resB)
+		j = log2[R - L + 1];
+		resA = self.ST[L][j];
+		resB = self.ST[R - (1 << j) + 1][j];
+		if resA == resB and resA == (1 << j):
+			return resA + resB - (L - R + 2 * (1 << j) - 1);
+		return max(resA, resB);
 
 if __name__ == '__main__':
 	n, query = map(int, input().split())
