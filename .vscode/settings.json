@@ -75,7 +75,7 @@
 		"thread": "cpp",
 		"typeindex": "cpp"
 	},
-	"python.pythonPath": "C:\\Python39\\python.exe",
+	"python.pythonPath": "C:\\Users\\andre\\AppData\\Local\\Programs\\Python\\Python38-32\\python.exe",
 	"C_Cpp.default.compilerPath": "F:\\Program Files\\mingw-w64\\x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin",
 	"C_Cpp.default.systemIncludePath": ["F:\\Program Files\\mingw-w64\\x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin"]
 }

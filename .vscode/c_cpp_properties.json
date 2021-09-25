@@ -4,7 +4,7 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "F:/Program Files/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/**"
+                "C:/Strawberry/c/bin/**"
             ],
             "defines": [
                 "_DEBUG",
@@ -12,9 +12,12 @@
                 "_UNICODE"
             ],
             "cStandard": "c17",
-            "intelliSenseMode": "gcc-x64",
-            "compilerPath": "F:/Program Files/mingw-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/bin/g++.exe",
-            "cppStandard": "c++17"
+            "intelliSenseMode": "windows-gcc-x64",
+            "compilerPath": "C:/Strawberry/c/bin/g++.exe",
+            "cppStandard": "gnu++20",
+            "forcedInclude": [
+                "bits/stdc++"
+            ]
         }
     ],
     "version": 4
